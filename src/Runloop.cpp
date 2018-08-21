@@ -266,6 +266,13 @@ void Runloop::ConfigureEyes()
     m_eyes.m_npc_name_color_threshold   = m_options.Double("--npc_name_color_threshold", m_eyes.m_npc_name_color_threshold);
     m_eyes.m_npc_name_center_offset     = m_options.Int("--npc_name_center_offset", m_eyes.m_npc_name_center_offset);
 
+    // far NPC detection
+    m_eyes.m_far_npc_min_height = m_options.Int("--far_npc_min_height", m_eyes.m_far_npc_min_height);
+    m_eyes.m_far_npc_max_height = m_options.Int("--far_npc_max_height", m_eyes.m_far_npc_max_height);
+    m_eyes.m_far_npc_min_width  = m_options.Int("--far_npc_min_width", m_eyes.m_far_npc_min_width);
+    m_eyes.m_far_npc_max_width  = m_options.Int("--far_npc_max_width", m_eyes.m_far_npc_max_width);
+    m_eyes.m_far_npc_limit      = m_options.Int("--far_npc_limit", m_eyes.m_far_npc_limit);
+
     // selected target detection
     m_eyes.m_target_circle_area_height      = m_options.Int("--target_circle_area_height", m_eyes.m_target_circle_area_height);
     m_eyes.m_target_circle_area_width       = m_options.Int("--target_circle_area_width", m_eyes.m_target_circle_area_width);

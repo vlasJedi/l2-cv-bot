@@ -16,6 +16,13 @@ l2-cv-bot.exe ^
     --npc_name_color_threshold  0.2     ^
     --npc_name_center_offset    17      ^
 
+    %= far NPC detection =%     ^
+    --far_npc_min_height    25  ^
+    --far_npc_max_height    200 ^
+    --far_npc_min_width     25  ^
+    --far_npc_max_width     200 ^
+    --far_npc_limit         10  ^
+
     %= current target detection =%              ^
     --target_circle_area_height     25          ^
     --target_circle_area_width      25          ^

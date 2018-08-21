@@ -19,26 +19,28 @@ void Brain::Process()
     m_me = m_eyes.DetectMe();
     m_target = m_eyes.DetectTarget();
 
-    if (m_me.has_value()) {
-        const auto me = m_me.value();
+    if (!m_me.has_value()) {
+        return;
+    }
 
-        if (me.hp < 70 && !LOCKED(1000)) {
-            std::cout << "Restore HP" << std::endl;
-            m_hands.RestoreHP();
-            m_hands.Send();
-        }
+    const auto me = m_me.value();
 
-        if (me.mp < 70 && !LOCKED(1000)) {
-            std::cout << "Restore MP" << std::endl;
-            m_hands.RestoreMP();
-            m_hands.Send();
-        }
+    if (me.hp < 70 && !LOCKED(1000)) {
+        std::cout << "Restore HP" << std::endl;
+        m_hands.RestoreHP();
+        m_hands.Send();
+    }
 
-        if (me.cp < 90 && !LOCKED(1000)) {
-            std::cout << "Restore CP" << std::endl;
-            m_hands.RestoreCP();
-            m_hands.Send();
-        }
+    if (me.mp < 70 && !LOCKED(1000)) {
+        std::cout << "Restore MP" << std::endl;
+        m_hands.RestoreMP();
+        m_hands.Send();
+    }
+
+    if (me.cp < 90 && !LOCKED(1000)) {
+        std::cout << "Restore CP" << std::endl;
+        m_hands.RestoreCP();
+        m_hands.Send();
     }
 
     const auto target = m_target.value_or(::Eyes::Target{});
@@ -68,7 +70,7 @@ void Brain::Process()
             m_state = State::Check;
         } else if (m_search_attempt < m_search_attempts) {
             ++m_search_attempt;
-            std::cout << "Near search: Look around attempt: " << m_search_attempt << std::endl;
+            std::cout << "Near search: Look around attempt " << m_search_attempt << std::endl;
             m_hands.LookAround();
             m_hands.NextTarget();
             m_hands.Send(500);
@@ -89,7 +91,7 @@ void Brain::Process()
             m_state = State::Check;
         } else if (m_search_attempt < m_search_attempts) {
             ++m_search_attempt;
-            std::cout << "Far search: Look around attempt: " << m_search_attempt << std::endl;
+            std::cout << "Far search: Look around attempt " << m_search_attempt << std::endl;
             m_hands.LookAround();
             m_hands.NextTarget();
             m_hands.Send(2000);

@@ -53,9 +53,9 @@ public:
     int m_npc_name_center_offset            = 17;
 
     // far NPC detection
-    int m_far_npc_min_height    = 20;
+    int m_far_npc_min_height    = 25;
     int m_far_npc_max_height    = 200;
-    int m_far_npc_min_width     = 20;
+    int m_far_npc_min_width     = 25;
     int m_far_npc_max_width     = 200;
     int m_far_npc_limit         = 10;
 
