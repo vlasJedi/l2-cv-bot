@@ -135,9 +135,10 @@ std::vector<Eyes::FarNPC> Eyes::DetectFarNPCs()
     for (const auto &contour : contours) {
         const auto rect = cv::boundingRect(contour);
 
-        if (rect.height < m_far_npc_min_height || rect.height > m_far_npc_max_height ||
+        if (rect.y + rect.height > m_hsv.rows / 2 ||
+            rect.height < m_far_npc_min_height || rect.height > m_far_npc_max_height ||
             rect.width < m_far_npc_min_width || rect.width > m_far_npc_max_width ||
-            rect.y + rect.height > m_hsv.rows / 2
+            rect.width * 2 < rect.height || rect.height * 2 < rect.width
         ) {
             continue;
         }

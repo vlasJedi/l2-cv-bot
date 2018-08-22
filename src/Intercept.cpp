@@ -134,7 +134,7 @@ bool Intercept::KeyboardKeyPressed(int code)
 {
     std::lock_guard lock{m_keyboard_mtx};
 
-    if (code >= m_pressed_keyboard_keys.size()) {
+    if (code < 0 || code >= m_pressed_keyboard_keys.size()) {
         return false;
     }
 

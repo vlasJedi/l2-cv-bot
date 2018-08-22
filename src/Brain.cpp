@@ -61,10 +61,10 @@ void Brain::Process()
     } else if (m_state == State::NearSearch) {
         const auto npc = UnselectedNPC();
 
-        if (npc.has_value()) {
+        if (npc != nullptr) {
             std::cout << "Near search: Found NPC" << std::endl;
-            IgnoreNPC(npc.value().Id());
-            m_hands.MoveMouseTo({npc.value().center.x, npc.value().center.y});
+            IgnoreNPC(npc->Id());
+            m_hands.MoveMouseTo({npc->center.x, npc->center.y});
             m_hands.Send(500);
             m_previous_state = m_state;
             m_state = State::Check;
@@ -82,10 +82,10 @@ void Brain::Process()
     } else if (m_state == State::FarSearch) {
         const auto npc = FarNPC();
 
-        if (npc.has_value()) {
+        if (npc != nullptr) {
             std::cout << "Far search: Found NPC" << std::endl;
-            IgnoreNPC(npc.value().Id());
-            m_hands.MoveMouseTo({npc.value().center.x, npc.value().center.y});
+            IgnoreNPC(npc->Id());
+            m_hands.MoveMouseTo({npc->center.x, npc->center.y});
             m_hands.Send(500);
             m_previous_state = m_state;
             m_state = State::Check;
@@ -104,7 +104,7 @@ void Brain::Process()
         std::cout << "Check NPC" << std::endl;
         const auto npc = HoveredNPC();
 
-        if (npc.has_value()) {
+        if (npc != nullptr) {
             m_hands.SelectTarget();
             m_hands.Send(500);
         }
@@ -130,9 +130,9 @@ void Brain::Process()
             m_first_attack = true;
             const auto npc = SelectedNPC();
 
-            if (npc.has_value()) {
+            if (npc != nullptr) {
                 std::cout << "Go to NPC" << std::endl;
-                m_hands.GoTo({npc.value().center.x, npc.value().center.y});
+                m_hands.GoTo({npc->center.x, npc->center.y});
                 m_hands.Send(4000); // TODO: moving of the selected target can be detected
             }
 
@@ -142,67 +142,68 @@ void Brain::Process()
         std::cout << "Pick up loot" << std::endl;
         m_hands.Sweep();
         m_hands.Delay(500);
+        m_hands.CancelTarget();
         m_hands.PickUp();
         m_hands.Send();
         m_state = State::NextTarget;
     }
 }
 
-std::optional<::Eyes::NPC> Brain::UnselectedNPC() const
+const ::Eyes::NPC *Brain::UnselectedNPC() const
 {
     const auto npcs = FilteredNPCs();
 
     for (const auto &npc : npcs) {
-        if (!npc.Selected()) {
+        if (!npc->Selected()) {
             return npc;
         }
     }
 
-    return {};
+    return nullptr;
 }
 
-std::optional<::Eyes::NPC> Brain::SelectedNPC() const
+const ::Eyes::NPC *Brain::SelectedNPC() const
 {
     const auto npcs = FilteredNPCs();
 
     for (const auto &npc : npcs) {
-        if (npc.Selected()) {
+        if (npc->Selected()) {
             return npc;
         }
     }
 
-    return {};
+    return nullptr;
 }
 
-std::optional<::Eyes::NPC> Brain::HoveredNPC() const
+const ::Eyes::NPC *Brain::HoveredNPC() const
 {
     for (const auto &npc : m_npcs) {
         if (npc.Hovered()) {
-            return npc;
+            return &npc;
         }
     }
 
-    return {};
+    return nullptr;
 }
 
-std::optional<::Eyes::FarNPC> Brain::FarNPC() const
+const ::Eyes::FarNPC *Brain::FarNPC() const
 {
     for (const auto &npc : m_far_npcs) {
         if (m_ignored_npc_ids.find(npc.Id()) == m_ignored_npc_ids.end()) {
-            return npc;
+            return &npc;
         }
     }
 
-    return {};
+    return nullptr;
 }
 
-std::vector<::Eyes::NPC> Brain::FilteredNPCs() const
+std::vector<const ::Eyes::NPC *> Brain::FilteredNPCs() const
 {
-    std::vector<::Eyes::NPC> npcs;
+    std::vector<const ::Eyes::NPC *> npcs;
 
     for (const auto &npc : m_npcs) {
         if (m_ignored_npc_ids.find(npc.Id()) == m_ignored_npc_ids.end()) {
-            npcs.push_back(npc);
+            npcs.push_back(&npc);
         }
     }
 
