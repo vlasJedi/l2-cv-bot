@@ -4,7 +4,7 @@ Simple Lineage II bot that uses CV to find possible targets and monitor HP/MP/CP
 
 Demonstration video:
 
-<a href="https://youtu.be/qzArHNCHblk" target="_blank"><img src="https://img.youtube.com/vi/qzArHNCHblk/0.jpg"></a>
+<a href="https://youtu.be/qzArHNCHblk"><img src="https://img.youtube.com/vi/qzArHNCHblk/0.jpg"></a>
 
 ## Features
 
