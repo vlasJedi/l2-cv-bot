@@ -3,6 +3,7 @@ project(l2-cv-bot)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(OpenCV_DIR "C:/opencv/build/x64/vc15/lib")
 
 add_executable(
     l2-cv-bot
@@ -24,6 +25,7 @@ set_target_properties(l2-cv-bot PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
+target_compile_definitions(l2-cv-bot PUBLIC _HAS_STD_BYTE=0)
 
 # OpenCV
 find_package(OpenCV REQUIRED)

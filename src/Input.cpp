@@ -9,7 +9,7 @@ void Input::MoveMouseSmoothly(const Point &point, Point from, int step, int inte
         step = 1;
     }
 
-    const auto distance = std::hypot(point.x - from.x, point.y - from.y);
+    const auto distance = hypot(point.x - from.x, point.y - from.y);
     const auto steps = distance / step;
 
     if (steps == 0) {
